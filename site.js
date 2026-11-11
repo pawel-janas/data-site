@@ -26,3 +26,32 @@ document.addEventListener("input", function (e) {
   var rows = document.querySelectorAll(e.target.dataset.target + " tbody tr");
   rows.forEach(function (tr) { tr.style.display = tr.innerText.toLowerCase().indexOf(q) > -1 ? "" : "none"; });
 });
+
+// "Submit a citation": toggle the form and compose a pre-filled email.
+(function () {
+  var open = document.getElementById("cite-open");
+  var form = document.getElementById("cite-form");
+  if (!open || !form) return;
+  open.addEventListener("click", function () {
+    form.hidden = !form.hidden;
+    open.setAttribute("aria-expanded", String(!form.hidden));
+    if (!form.hidden) form.querySelector("input").focus();
+  });
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var f = new FormData(form);
+    var ds = f.getAll("datasets");
+    var body = [
+      "Paper: " + (f.get("title") || ""),
+      "Authors: " + (f.get("authors") || ""),
+      "Journal/series: " + (f.get("venue") || ""),
+      "Link/DOI: " + (f.get("link") || ""),
+      "Datasets used: " + (ds.length ? ds.join(", ") : ""),
+      "",
+      "Submitted by: " + (f.get("name") || "") + (f.get("affil") ? " (" + f.get("affil") + ")" : "")
+    ].join("\n");
+    window.location.href = "mailto:" + form.dataset.email +
+      "?subject=" + encodeURIComponent("Citation of your data: " + (f.get("title") || "")) +
+      "&body=" + encodeURIComponent(body);
+  });
+})();
