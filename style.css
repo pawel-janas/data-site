@@ -92,6 +92,9 @@ h3.group em { font: 400 15px/1.3 var(--sans); letter-spacing: 0; text-transform:
 .refs .j { color: var(--ink-2); font-size: 15.5px; }
 .refs .links { margin-top: 4px; font-size: 14.5px; display: flex; gap: 14px; flex-wrap: wrap; }
 .refs .uses { margin-top: 6px; font-size: 14px; color: var(--muted); }
+.refs a.plain { color: var(--ink); text-decoration: none; }
+.refs a.plain:hover { color: var(--accent-ink); text-decoration: underline; }
+.refs + h3.group { margin-top: 40px; }
 
 /* ---------- submit a citation ---------- */
 .submit-cite { margin-top: 26px; border: 1px solid var(--rule); border-radius: 6px; background: var(--card); padding: 20px 22px; }
